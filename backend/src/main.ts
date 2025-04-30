@@ -9,7 +9,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.useLogger(app.get(Logger));
-
-  await app.listen(3000);
+  app.enableCors({
+    origin: ['http://localhost:3000'], // Add your frontend domain here
+    credentials: true, // Allow cookies to be sent with requests
+  });
+  await app.listen(5000);
 }
 bootstrap();

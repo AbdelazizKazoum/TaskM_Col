@@ -11,6 +11,9 @@ import * as Joi from 'joi';
     NestConfigModule.forRoot({
       validationSchema: Joi.object({
         MONGO_URI: Joi.string().required(),
+        KEYCLOAK_CLIENT_ID: Joi.string().required(),
+        KEYCLOAK_CLIENT_SECRET: Joi.string().required(),
+        KEYCLOAK_REALM: Joi.string().required(),
       }),
     }),
   ],
