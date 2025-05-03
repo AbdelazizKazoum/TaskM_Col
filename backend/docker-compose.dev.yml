@@ -1,0 +1,40 @@
+# docker-compose.yml
+# version: '3.8'
+
+services:
+  nest-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '5000:5000'
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/taskManagment
+      - KEYCLOAK_CLIENT_ID=task-frontend
+      - KEYCLOAK_CLIENT_SECRET=0DusKjyAoCZmK3t8Do8GbwL4scM9ngWp
+      - KEYCLOAK_REALM=rb-task-app
+      - KEYCLOAK_AUTH_SERVER_URL=http://host.docker.internal:9081
+    command: npm run start:dev
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  mongodb_data:
